@@ -1,0 +1,34 @@
+{
+	"$schema": "../node_modules/@companion-module/base/assets/manifest.schema.json",
+	"type": "connection",
+	"id": "foshow",
+	"name": "FoShow",
+	"shortname": "FoShow",
+	"description": "Control the FoShow macOS broadcast playout application over its HTTP/JSON control surface",
+	"version": "1.0.0",
+	"license": "MIT",
+	"repository": "git+https://github.com/bitfocus/companion-module-foshow.git",
+	"bugs": "https://github.com/bitfocus/companion-module-foshow/issues",
+	"maintainers": [
+		{
+			"name": "Matthew Knerr",
+			"email": "matthew@knerr.name"
+		}
+	],
+	"runtime": {
+		"type": "node22",
+		"api": "nodejs-ipc",
+		"apiVersion": "2.0.4",
+		"entrypoint": "../src/main.js"
+	},
+	"legacyIds": [],
+	"manufacturer": "FoShow",
+	"products": ["FoShow"],
+	"keywords": ["playout", "video", "broadcast", "media", "playback"],
+	"bonjourQueries": {
+		"bonjour_device": {
+			"type": "FoShow",
+			"protocol": "tcp"
+		}
+	}
+}
