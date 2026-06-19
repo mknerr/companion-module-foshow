@@ -1,4 +1,4 @@
-const { InstanceBase, Regex, runEntrypoint, InstanceStatus } = require('@companion-module/base')
+const { InstanceBase, Regex, InstanceStatus } = require('@companion-module/base')
 const UpgradeScripts = require('./upgrades')
 const UpdateActions = require('./actions')
 const UpdateFeedbacks = require('./feedbacks')
@@ -15,6 +15,10 @@ const PLAYLIST_REFRESH_MS = 3000
 class FoShowInstance extends InstanceBase {
 	constructor(internal) {
 		super(internal)
+
+		this.config = {}
+		// Secret-type config fields (the API token) arrive separately from `config`.
+		this.secrets = {}
 
 		/** @type {FoShowApi|null} */
 		this.api = null
@@ -35,8 +39,9 @@ class FoShowInstance extends InstanceBase {
 		this.connMessage = undefined
 	}
 
-	async init(config) {
+	async init(config, _isFirstInit, secrets) {
 		this.config = config
+		this.secrets = secrets || {}
 
 		// Register definitions once up front (dropdowns refresh later from polled state).
 		this.updateActions()
@@ -48,8 +53,9 @@ class FoShowInstance extends InstanceBase {
 		this.applyConfig()
 	}
 
-	async configUpdated(config) {
+	async configUpdated(config, secrets) {
 		this.config = config
+		this.secrets = secrets || {}
 		this.applyConfig()
 	}
 
@@ -130,7 +136,7 @@ class FoShowInstance extends InstanceBase {
 		this.stopPolling()
 
 		const { host, port } = this.effectiveTarget()
-		const token = this.config.token
+		const token = this.secrets?.token
 
 		if (!host || !token) {
 			this.api = null
@@ -309,4 +315,7 @@ class FoShowInstance extends InstanceBase {
 	}
 }
 
-runEntrypoint(FoShowInstance, UpgradeScripts)
+// Companion 2.x host API loads the instance class from the default export and
+// reads optional upgrade scripts from a named `UpgradeScripts` export.
+module.exports = FoShowInstance
+module.exports.UpgradeScripts = UpgradeScripts
