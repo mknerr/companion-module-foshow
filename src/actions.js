@@ -126,6 +126,42 @@ module.exports = function UpdateActions(self) {
 			callback: (event) => self.doAction((api) => api.clearBlack(Number(event.options.duration))),
 		},
 
+		setVolume: {
+			name: 'Set Volume',
+			options: [
+				{
+					id: 'volume',
+					type: 'number',
+					label: 'Volume (0–100)',
+					default: 100,
+					min: 0,
+					max: 100,
+					step: 1,
+					tooltip: 'Master output volume as a percentage.',
+				},
+			],
+			callback: (event) => self.doAction((api) => api.setVolume(Number(event.options.volume) / 100)),
+		},
+
+		setMute: {
+			name: 'Set Mute',
+			options: [
+				{
+					id: 'mute',
+					type: 'checkbox',
+					label: 'Muted',
+					default: true,
+				},
+			],
+			callback: (event) => self.doAction((api) => api.setMute(Boolean(event.options.mute))),
+		},
+
+		toggleMute: {
+			name: 'Toggle Mute',
+			options: [],
+			callback: () => self.doAction((api) => api.toggleMute()),
+		},
+
 		switchPlaylist: {
 			name: 'Switch Playlist',
 			options: [

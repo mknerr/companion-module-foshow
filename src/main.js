@@ -226,14 +226,14 @@ class FoShowInstance extends InstanceBase {
 			this.updateFeedbacks()
 		}
 
-		this.checkFeedbacks('isPlaying', 'isBlackedOut', 'isTransitioning', 'isCurrentClip', 'isCurrentPlaylist')
+		this.checkFeedbacks('isPlaying', 'isBlackedOut', 'isTransitioning', 'isMuted', 'isCurrentClip', 'isCurrentPlaylist')
 	}
 
 	onPollFailure(err) {
 		this.lastStatus = null
 		this.setVariableValues(buildVariableValues(null))
 		this.handleApiError(err)
-		this.checkFeedbacks('isPlaying', 'isBlackedOut', 'isTransitioning', 'isCurrentClip', 'isCurrentPlaylist')
+		this.checkFeedbacks('isPlaying', 'isBlackedOut', 'isTransitioning', 'isMuted', 'isCurrentClip', 'isCurrentPlaylist')
 	}
 
 	/** Map an API error onto a Companion connection state. */

@@ -40,6 +40,15 @@ module.exports = function UpdateFeedbacks(self) {
 			callback: () => self.lastStatus?.isTransitioning === true,
 		},
 
+		isMuted: {
+			name: 'Audio is muted',
+			type: 'boolean',
+			description: 'True while master audio is muted.',
+			defaultStyle: { bgcolor: COLOR_AMBER, color: COLOR_BLACK },
+			options: [],
+			callback: () => self.lastStatus?.isMuted === true,
+		},
+
 		isCurrentClip: {
 			name: 'Clip is on-air',
 			type: 'boolean',
