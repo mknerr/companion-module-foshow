@@ -5,7 +5,7 @@
 	"name": "FoShow",
 	"shortname": "FoShow",
 	"description": "Control the FoShow macOS broadcast playout application over its HTTP/JSON control surface",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"license": "MIT",
 	"repository": "git+https://github.com/mknerr/companion-module-foshow.git",
 	"bugs": "https://github.com/mknerr/companion-module-foshow/issues",
