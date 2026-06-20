@@ -89,6 +89,16 @@ class FoShowApi {
 
 	// --- Read endpoints -----------------------------------------------------
 
+	/** GET /ping — lightweight liveness check. */
+	ping() {
+		return this.request('/ping')
+	}
+
+	/** GET /info — app metadata and capabilities. */
+	getInfo() {
+		return this.request('/info')
+	}
+
 	/** GET /status — full state snapshot. */
 	getStatus() {
 		return this.request('/status')
@@ -105,6 +115,11 @@ class FoShowApi {
 		return this.request('/play', { method: 'POST' })
 	}
 
+	/** POST /take — alias for play. */
+	take() {
+		return this.request('/take', { method: 'POST' })
+	}
+
 	pause() {
 		return this.request('/pause', { method: 'POST' })
 	}
@@ -113,12 +128,27 @@ class FoShowApi {
 		return this.request('/toggle', { method: 'POST' })
 	}
 
+	/** POST /stop — stop and reset to beginning. */
+	stop() {
+		return this.request('/stop', { method: 'POST' })
+	}
+
 	next() {
 		return this.request('/next', { method: 'POST' })
 	}
 
 	previous() {
 		return this.request('/previous', { method: 'POST' })
+	}
+
+	/** POST /jumpToIn — seek to the current item's in-point. */
+	jumpToIn() {
+		return this.request('/jumpToIn', { method: 'POST' })
+	}
+
+	/** POST /jumpToOut — seek to the current item's out-point. */
+	jumpToOut() {
+		return this.request('/jumpToOut', { method: 'POST' })
 	}
 
 	/** POST /cue — cue item `index` (0-based) in the current playlist. */
@@ -130,6 +160,25 @@ class FoShowApi {
 	seek(time) {
 		return this.request('/seek', { method: 'POST', body: { time } })
 	}
+
+	// --- Audio controls -----------------------------------------------------
+
+	/** POST /volume — set master volume (0.0–1.0). */
+	setVolume(value) {
+		return this.request('/volume', { method: 'POST', body: { value } })
+	}
+
+	/** POST /mute — set mute state explicitly. */
+	setMute(value) {
+		return this.request('/mute', { method: 'POST', body: { value } })
+	}
+
+	/** POST /toggleMute — toggle mute on/off. */
+	toggleMute() {
+		return this.request('/toggleMute', { method: 'POST' })
+	}
+
+	// --- DSK / overlay ------------------------------------------------------
 
 	/** POST /fadeToBlack — DSK fade out over `duration` seconds. */
 	fadeToBlack(duration) {
