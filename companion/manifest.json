@@ -27,7 +27,7 @@
 	"keywords": ["playout", "video", "broadcast", "media", "playback"],
 	"bonjourQueries": {
 		"bonjour_device": {
-			"type": "FoShow",
+			"type": "foshow",
 			"protocol": "tcp"
 		}
 	}

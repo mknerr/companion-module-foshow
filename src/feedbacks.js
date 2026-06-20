@@ -40,6 +40,15 @@ module.exports = function UpdateFeedbacks(self) {
 			callback: () => self.lastStatus?.isTransitioning === true,
 		},
 
+		isReadyToPlay: {
+			name: 'Ready to play',
+			type: 'boolean',
+			description: 'True when FoShow has a clip cued and ready to start playing.',
+			defaultStyle: { bgcolor: COLOR_GREEN, color: COLOR_WHITE },
+			options: [],
+			callback: () => self.lastStatus?.isReadyToPlay === true,
+		},
+
 		isMuted: {
 			name: 'Audio is muted',
 			type: 'boolean',

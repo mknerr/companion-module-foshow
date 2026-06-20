@@ -37,6 +37,9 @@ class FoShowInstance extends InstanceBase {
 		// Tracks the last reported connection state so we don't spam updateStatus().
 		this.connState = null
 		this.connMessage = undefined
+
+		// Fired once per connection to log app version from GET /info.
+		this.infoLogged = false
 	}
 
 	async init(config, _isFirstInit, secrets) {
@@ -134,6 +137,7 @@ class FoShowInstance extends InstanceBase {
 	/** (Re)build the API client from config and (re)start polling. */
 	applyConfig() {
 		this.stopPolling()
+		this.infoLogged = false
 
 		const { host, port } = this.effectiveTarget()
 		const token = this.secrets?.token
@@ -218,6 +222,16 @@ class FoShowInstance extends InstanceBase {
 		this.setConnectionStatus(InstanceStatus.Ok)
 		this.setVariableValues(buildVariableValues(status))
 
+		if (!this.infoLogged) {
+			this.infoLogged = true
+			this.api
+				.getInfo()
+				.then((info) => {
+					this.log('info', `Connected to ${info.appName} (API v${info.apiVersion}, build ${info.build})`)
+				})
+				.catch(() => {})
+		}
+
 		// Re-register actions/feedbacks only when the dropdown choices actually change.
 		const signature = this.optionsSignature()
 		if (signature !== this.lastOptionsSignature) {
@@ -226,14 +240,30 @@ class FoShowInstance extends InstanceBase {
 			this.updateFeedbacks()
 		}
 
-		this.checkFeedbacks('isPlaying', 'isBlackedOut', 'isTransitioning', 'isMuted', 'isCurrentClip', 'isCurrentPlaylist')
+		this.checkFeedbacks(
+			'isPlaying',
+			'isBlackedOut',
+			'isTransitioning',
+			'isMuted',
+			'isReadyToPlay',
+			'isCurrentClip',
+			'isCurrentPlaylist',
+		)
 	}
 
 	onPollFailure(err) {
 		this.lastStatus = null
 		this.setVariableValues(buildVariableValues(null))
 		this.handleApiError(err)
-		this.checkFeedbacks('isPlaying', 'isBlackedOut', 'isTransitioning', 'isMuted', 'isCurrentClip', 'isCurrentPlaylist')
+		this.checkFeedbacks(
+			'isPlaying',
+			'isBlackedOut',
+			'isTransitioning',
+			'isMuted',
+			'isReadyToPlay',
+			'isCurrentClip',
+			'isCurrentPlaylist',
+		)
 	}
 
 	/** Map an API error onto a Companion connection state. */
