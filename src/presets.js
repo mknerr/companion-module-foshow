@@ -31,6 +31,8 @@ function actionButton(name, text, actionId, options = {}, extra = {}) {
 
 module.exports = function UpdatePresets(self) {
 	const presets = {
+		// --- Transport & DSK ---------------------------------------------------
+
 		play: actionButton('Play', 'Play', 'play'),
 		pause: actionButton('Pause', 'Pause', 'pause'),
 
@@ -43,6 +45,8 @@ module.exports = function UpdatePresets(self) {
 				feedbacks: [{ feedbackId: 'isPlaying', options: {}, style: { bgcolor: GREEN, color: WHITE } }],
 			},
 		),
+
+		stop: actionButton('Stop', 'Stop', 'stop'),
 
 		next: actionButton('Next item', 'Next\\n▶▶', 'next'),
 		previous: actionButton('Previous item', '◀◀\\nPrev', 'previous'),
@@ -71,13 +75,35 @@ module.exports = function UpdatePresets(self) {
 			steps: [{ down: [], up: [] }],
 			feedbacks: [{ feedbackId: 'isPlaying', options: {}, style: { color: GREEN } }],
 		},
+
+		// --- Audio -------------------------------------------------------------
+
+		toggleMute: actionButton(
+			'Toggle Mute',
+			'Mute',
+			'toggleMute',
+			{},
+			{
+				feedbacks: [{ feedbackId: 'isMuted', options: {}, style: { bgcolor: RED, color: WHITE } }],
+			},
+		),
+
+		volFull: actionButton('Volume 100%', 'Vol\\n100%', 'setVolume', { volume: 100 }),
+		vol75: actionButton('Volume 75%', 'Vol\\n75%', 'setVolume', { volume: 75 }),
+		vol50: actionButton('Volume 50%', 'Vol\\n50%', 'setVolume', { volume: 50 }),
+		vol0: actionButton('Volume 0% (silence)', 'Vol\\n0%', 'setVolume', { volume: 0 }),
 	}
 
 	const structure = [
 		{
 			id: 'transport',
 			name: 'Transport & DSK',
-			definitions: ['play', 'pause', 'toggle', 'next', 'previous', 'fadeToBlack', 'clearBlack', 'nowPlaying'],
+			definitions: ['play', 'pause', 'toggle', 'stop', 'next', 'previous', 'fadeToBlack', 'clearBlack', 'nowPlaying'],
+		},
+		{
+			id: 'audio',
+			name: 'Audio',
+			definitions: ['toggleMute', 'volFull', 'vol75', 'vol50', 'vol0'],
 		},
 	]
 
