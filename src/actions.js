@@ -44,6 +44,24 @@ module.exports = function UpdateActions(self) {
 			callback: () => self.doAction((api) => api.previous()),
 		},
 
+		stop: {
+			name: 'Stop',
+			options: [],
+			callback: () => self.doAction((api) => api.stop()),
+		},
+
+		jumpToIn: {
+			name: 'Jump to In-point',
+			options: [],
+			callback: () => self.doAction((api) => api.jumpToIn()),
+		},
+
+		jumpToOut: {
+			name: 'Jump to Out-point',
+			options: [],
+			callback: () => self.doAction((api) => api.jumpToOut()),
+		},
+
 		cue: {
 			name: 'Cue Clip',
 			options: [
